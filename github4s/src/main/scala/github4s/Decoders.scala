@@ -38,6 +38,7 @@ object Decoders {
       date    <- c.downField("commit").downField("author").downField("date").as[String]
       url     <- c.downField("html_url").as[String]
       author  <- c.downField("author").as[Option[Author]]
+      files   <- c.downField("files").as[List[CommitFile]]
     } yield Commit(
       sha = sha,
       message = message,
@@ -45,7 +46,8 @@ object Decoders {
       url = url,
       login = author.flatMap(_.login),
       avatar_url = author.flatMap(_.avatar_url),
-      author_url = author.flatMap(_.html_url)
+      author_url = author.flatMap(_.html_url),
+      files = files
     )
   }
 
@@ -253,8 +255,10 @@ object Decoders {
   implicit val decoderIssue: Decoder[Issue]             = deriveDecoder[Issue]
   implicit val decoderSearchIssuesResult: Decoder[SearchIssuesResult] =
     deriveDecoder[SearchIssuesResult]
-  implicit val decoderComment: Decoder[Comment]               = deriveDecoder[Comment]
-  implicit val decoderUser: Decoder[User]                     = deriveDecoder[User]
+  implicit val decoderComment: Decoder[Comment] = deriveDecoder[Comment]
+  implicit val decoderUser: Decoder[User]       = deriveDecoder[User]
+  implicit val decoderPullRequestReviewComment: Decoder[PullRequestReviewComment] =
+    deriveDecoder[PullRequestReviewComment]
   implicit val decoderStatus: Decoder[Status]                 = deriveDecoder[Status]
   implicit val decoderCombinedStatus: Decoder[CombinedStatus] = deriveDecoder[CombinedStatus]
   implicit val decoderLabel: Decoder[Label]                   = deriveDecoder[Label]

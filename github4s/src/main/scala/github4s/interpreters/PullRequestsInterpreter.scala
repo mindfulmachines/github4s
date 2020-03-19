@@ -111,4 +111,35 @@ class PullRequestsInterpreter[F[_]](implicit client: HttpClient[F], accessToken:
       s"repos/$owner/$repo/pulls/$pullRequest/reviews/$review",
       headers
     )
+
+  override def getReviewComment(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      commentId: Int,
+      review: Int,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequestReviewComment]] =
+    client.get[PullRequestReviewComment](
+      accessToken,
+      s"repos/$owner/$repo/pulls/$pullRequest/reviews/$review/$commentId",
+      headers
+    )
+
+  override def listReviewComments(
+      owner: String,
+      repo: String,
+      number: Int,
+      filters: List[PRFilter],
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[PullRequestReviewComment]]] =
+    client.get[List[PullRequestReviewComment]](
+      accessToken,
+      s"repos/$owner/$repo/pulls/$number/comments",
+      headers,
+      filters.map(_.tupled).toMap,
+      pagination
+    )
+
 }

@@ -138,4 +138,22 @@ trait PullRequests[F[_]] {
       headers: Map[String, String] = Map()
   ): F[GHResponse[PullRequestReview]]
 
+  def getReviewComment(
+      owner: String,
+      repo: String,
+      pullRequest: Int,
+      commentId: Int,
+      review: Int,
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[PullRequestReviewComment]]
+
+  def listReviewComments(
+      owner: String,
+      repo: String,
+      number: Int,
+      filters: List[PRFilter],
+      pagination: Option[Pagination],
+      headers: Map[String, String] = Map()
+  ): F[GHResponse[List[PullRequestReviewComment]]]
+
 }

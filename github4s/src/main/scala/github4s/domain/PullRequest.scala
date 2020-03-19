@@ -56,6 +56,24 @@ case class PullRequestFile(
     patch: Option[String],
     previous_filename: Option[String]
 )
+
+case class PullRequestReviewComment(
+    id: Int,
+    pull_request_review_id: Int,
+    diff_hunk: String,
+    path: String,
+    position: Int,
+    original_position: Int,
+    commit_id: String,
+    original_commit_id: String,
+    in_reply_to_id: Int,
+    body: String,
+    created_at: String,
+    updated_at: Option[String],
+    user: Option[User],
+    assignee: Option[User]
+)
+
 sealed trait CreatePullRequest {
   def head: String
   def base: String

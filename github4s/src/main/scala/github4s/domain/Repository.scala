@@ -95,6 +95,15 @@ case class Content(
     download_url: Option[String]
 )
 
+case class CommitFile(
+    filename: String,
+    additions: Int,
+    deletions: Int,
+    changes: Int,
+    status: String,
+    patch: String
+)
+
 case class Commit(
     sha: String,
     message: String,
@@ -102,7 +111,8 @@ case class Commit(
     url: String,
     login: Option[String],
     avatar_url: Option[String],
-    author_url: Option[String]
+    author_url: Option[String],
+    files: List[CommitFile]
 )
 
 case class Branch(
